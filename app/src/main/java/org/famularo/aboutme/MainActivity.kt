@@ -3,19 +3,15 @@ package org.famularo.aboutme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import org.famularo.aboutme.enums.SocialService
 import org.famularo.aboutme.ui.theme.AboutMeTheme
-import org.famularo.aboutme.view.Contact
-import org.famularo.aboutme.view.Header
+import org.famularo.aboutme.view.Main
 import org.famularo.aboutme.viewmodels.PersonViewModel
 import org.famularo.aboutme.viewmodels.SocialLinkViewModel
 
@@ -31,10 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(Modifier.padding(16.dp)) {
-                        Header(vm)
-                        Contact(vm)
-                    }
+                    Main(vm)
                 }
             }
         }
@@ -60,9 +53,6 @@ fun DefaultPreview() {
     vm.socialServices.add(SocialLinkViewModel("Homepage", SocialService.Homepage))
 
     AboutMeTheme {
-        Column(Modifier.padding(16.dp)) {
-            Header(vm)
-            Contact(vm)
-        }
+        Main(vm)
     }
 }
