@@ -1,11 +1,13 @@
 package org.famularo.aboutme
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -16,20 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import compose.icons.FontAwesomeIcons
-import compose.icons.fontawesomeicons.Brands
-import compose.icons.fontawesomeicons.brands.Github
-import compose.icons.fontawesomeicons.brands.Instagram
-import compose.icons.fontawesomeicons.brands.Twitter
+import androidx.core.content.ContextCompat
+import org.famularo.aboutme.enums.SocialService
 import org.famularo.aboutme.ui.theme.AboutMeTheme
-import org.famularo.aboutme.viewModels.personViewModel
+import org.famularo.aboutme.viewmodels.PersonViewModel
+import org.famularo.aboutme.viewmodels.SocialLinkViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +38,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AboutMeTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -53,13 +51,18 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun getVm(): personViewModel {
-        return personViewModel("Jason Famularo", "Writing software since the 1st Grade")
+    private fun getVm(): PersonViewModel {
+        val vm = PersonViewModel("Jason Famularo", "Writing software since the 1st Grade")
+        vm.socialServices.add(SocialLinkViewModel("Fammy", SocialService.GitHub))
+        vm.socialServices.add(SocialLinkViewModel("@splodn", SocialService.Twitter))
+        vm.socialServices.add(SocialLinkViewModel("@fammacro", SocialService.Instagram))
+        vm.socialServices.add(SocialLinkViewModel("Homepage", SocialService.Homepage))
+        return vm;
     }
 }
 
 @Composable
-fun AboutMeHeader(vm: personViewModel) {
+fun AboutMeHeader(vm: PersonViewModel) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Avatar(R.mipmap.avatar)
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(start = 16.dp)) {
@@ -70,21 +73,30 @@ fun AboutMeHeader(vm: personViewModel) {
 }
 
 @Composable
-fun Contact(vm: personViewModel) {
+fun Contact(vm: PersonViewModel) {
     Column(modifier = Modifier.padding(top = 16.dp)) {
         Text("Contact", style = MaterialTheme.typography.h6)
-        ContactSource(FontAwesomeIcons.Brands.Github, "Fammy", "GitHub")
-        ContactSource(FontAwesomeIcons.Brands.Twitter, "@splodn", "Twitter")
-        ContactSource(FontAwesomeIcons.Brands.Instagram, "@fammacro", "Instragram")
+        for (link in vm.socialServices) {
+            SocialLink(link)
+        }
     }
 }
 
 @Composable
-fun ContactSource(image: ImageVector, username: String, contentDesc: String) {
-    Row(verticalAlignment = Alignment.Bottom){
-        Icon(image, contentDesc, modifier = Modifier.size(16.dp))
-        Text(username, modifier = Modifier.padding(start = 8.dp))
+fun SocialLink(link: SocialLinkViewModel) {
+    val context = LocalContext.current;
+    Row(verticalAlignment = Alignment.Bottom, modifier = Modifier.clickable {
+        openUrl(context, link.url)
+    })
+    {
+        Icon(link.icon, link.contentDescription, Modifier.size(20.dp), link.tint)
+        Text(link.username, modifier = Modifier.padding(start = 8.dp))
     }
+}
+
+fun openUrl(context: Context, url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    ContextCompat.startActivity(context, intent, null)
 }
 
 @Composable
@@ -97,14 +109,17 @@ fun Avatar(id: Int) {
         modifier = Modifier
             .size(128.dp)
             .clip(CircleShape)
-            .border(2.dp, Color.DarkGray, CircleShape)
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val vm = personViewModel("Jason Famularo", "Writing software since the 1st Grade")
+    val vm = PersonViewModel("Jason Famularo", "Writing software since the 1st Grade")
+    vm.socialServices.add(SocialLinkViewModel("Fammy", SocialService.GitHub))
+    vm.socialServices.add(SocialLinkViewModel("@splodn", SocialService.Twitter))
+    vm.socialServices.add(SocialLinkViewModel("@fammacro", SocialService.Instagram))
+    vm.socialServices.add(SocialLinkViewModel("Homepage", SocialService.Homepage))
 
     AboutMeTheme {
         Column(Modifier.padding(16.dp)) {
