@@ -9,11 +9,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import org.famularo.aboutme.enums.SocialService
 import org.famularo.aboutme.ui.theme.AboutMeTheme
 import org.famularo.aboutme.view.Main
 import org.famularo.aboutme.viewmodels.PersonViewModel
-import org.famularo.aboutme.viewmodels.SocialLinkViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

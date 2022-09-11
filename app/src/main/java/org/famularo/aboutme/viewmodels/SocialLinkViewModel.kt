@@ -2,7 +2,10 @@ package org.famularo.aboutme.viewmodels
 
 import androidx.compose.ui.graphics.Color
 import compose.icons.LineAwesomeIcons
-import compose.icons.lineawesomeicons.*
+import compose.icons.lineawesomeicons.Github
+import compose.icons.lineawesomeicons.HomeSolid
+import compose.icons.lineawesomeicons.Instagram
+import compose.icons.lineawesomeicons.Twitter
 import org.famularo.aboutme.enums.SocialService
 
 data class SocialLinkViewModel(val username: String, val service: SocialService) {
@@ -22,10 +25,16 @@ data class SocialLinkViewModel(val username: String, val service: SocialService)
         SocialService.Homepage -> "https://famularo.org/"
     }
 
-    val tint = when (service) {
-        SocialService.GitHub -> Color.Black
-        SocialService.Twitter -> Color(29, 161, 242)
-        SocialService.Instagram -> Color(251, 57, 88)
-        SocialService.Homepage -> Color.DarkGray
+    fun tint(isDarkTheme: Boolean) : Color {
+        return when {
+            service == SocialService.GitHub && !isDarkTheme -> Color.Black
+            service == SocialService.GitHub && isDarkTheme -> Color.White
+            service == SocialService.Twitter -> Color(29, 161, 242)
+            service == SocialService.Instagram -> Color(251, 57, 88)
+            service == SocialService.Homepage && !isDarkTheme -> Color.DarkGray
+            service == SocialService.Homepage && isDarkTheme -> Color.White
+            isDarkTheme -> Color.White
+            else -> Color.Black
+        }
     }
 }

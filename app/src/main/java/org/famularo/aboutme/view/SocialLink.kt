@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,7 +25,7 @@ fun SocialLink(link: SocialLinkViewModel) {
         openUrl(context, link.url)
     })
     {
-        Icon(link.icon, link.contentDescription, Modifier.size(20.dp), link.tint)
+        Icon(link.icon, link.contentDescription, Modifier.size(20.dp), link.tint(isSystemInDarkTheme()))
         Text(link.username, modifier = Modifier.padding(start = 8.dp))
     }
 }
