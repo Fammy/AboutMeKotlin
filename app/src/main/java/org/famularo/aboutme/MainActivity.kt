@@ -34,25 +34,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getVm(): PersonViewModel {
-        val vm = PersonViewModel("Jason Famularo", "Writing software since the 1st Grade")
-        vm.socialServices.add(SocialLinkViewModel("Fammy", SocialService.GitHub))
-        vm.socialServices.add(SocialLinkViewModel("@splodn", SocialService.Twitter))
-        vm.socialServices.add(SocialLinkViewModel("@fammacro", SocialService.Instagram))
-        vm.socialServices.add(SocialLinkViewModel("Homepage", SocialService.Homepage))
-        return vm;
+        return PersonViewModel.sample()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val vm = PersonViewModel("Jason Famularo", "Writing software since the 1st Grade")
-    vm.socialServices.add(SocialLinkViewModel("Fammy", SocialService.GitHub))
-    vm.socialServices.add(SocialLinkViewModel("@splodn", SocialService.Twitter))
-    vm.socialServices.add(SocialLinkViewModel("@fammacro", SocialService.Instagram))
-    vm.socialServices.add(SocialLinkViewModel("Homepage", SocialService.Homepage))
-
     AboutMeTheme {
-        Main(vm)
+        Main(PersonViewModel.sample())
     }
 }

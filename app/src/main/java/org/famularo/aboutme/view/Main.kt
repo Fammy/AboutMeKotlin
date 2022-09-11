@@ -40,6 +40,7 @@ fun Main(vm: PersonViewModel) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(vm.name, style = MaterialTheme.typography.h5, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
                 Text(vm.tagLine, style = MaterialTheme.typography.caption, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+                About(vm.about)
                 Contact(vm)
             }
         }
