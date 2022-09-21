@@ -5,9 +5,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
-    primary = Indigo200,
+    primary = Indigo500,
     primaryVariant = Indigo700,
     secondary = Green200
 )
@@ -33,6 +36,18 @@ fun AboutMeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
         DarkColorPalette
     } else {
         LightColorPalette
+    }
+
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = colors.primary,
+            darkIcons = false
+        )
+        systemUiController.setNavigationBarColor(
+            color = colors.primary,
+            darkIcons = false
+        )
     }
 
     MaterialTheme(
